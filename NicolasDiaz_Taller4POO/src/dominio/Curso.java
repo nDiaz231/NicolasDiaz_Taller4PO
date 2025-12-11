@@ -8,7 +8,7 @@ public class Curso {
 	private int semestre;
 	private String area;
 	private ArrayList<String> prerrequisitos;
-	public Curso(String nrc, String nombre, int semestre, String area, ArrayList<String> prerrequisitos) {
+	public Curso(String nrc, String nombre, int semestre, String area) {
 		this.nrc = nrc;
 		this.nombre = nombre;
 		this.semestre = semestre;

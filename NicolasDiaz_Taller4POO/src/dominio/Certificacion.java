@@ -9,8 +9,8 @@ public class Certificacion {
 	private String requisitos;
 	private int añosValidez;
 	private ArrayList<String> listCursos;
-	public Certificacion(String id, String nombre, String descripcion, String requisitos, int añosValidez,
-			ArrayList<String> listCursos) {
+	public Certificacion(String id, String nombre, String descripcion, String requisitos, int añosValidez
+			) {
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;

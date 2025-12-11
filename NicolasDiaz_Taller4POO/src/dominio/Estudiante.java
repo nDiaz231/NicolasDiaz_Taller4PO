@@ -12,8 +12,8 @@ public class Estudiante{
 	
 	private ArrayList<Nota> notas;
 	private ArrayList<Registro> inscripcion;
-	public Estudiante(String rut, String nombre, String carrera, int semestre, String email, String constraseña,
-			ArrayList<Nota> notas, ArrayList<Registro> inscripcion) {
+	public Estudiante(String rut, String nombre, String carrera, int semestre, String email, String constraseña
+			) {
 		super();
 		this.rut = rut;
 		this.nombre = nombre;

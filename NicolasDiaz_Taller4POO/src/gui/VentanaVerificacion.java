@@ -79,13 +79,16 @@ public class VentanaVerificacion extends JFrame{
 			menu.setVisible(true);
 		}else if (usuario instanceof Coordinador) {
 			Coordinador c = sistema.buscarCoordinador(nombre);
+			
 			MenuCoordinador menu = new MenuCoordinador(c);
+			menu.setVisible(true);
 			
 
 		
 	}else if (usuario instanceof Administrador) {
 		Administrador a = sistema.buscarAdmin(nombre);
 		MenuAdmin menu = new MenuAdmin(a);
+		menu.setVisible(true);
 	}
 	}
 

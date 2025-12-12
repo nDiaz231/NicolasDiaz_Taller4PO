@@ -261,5 +261,18 @@ public class SistemaEspecifico {
 	}
 	
 	
-
+	public Usuario buscarUsuario(String nombreRut) {
+	for(Usuario u : usuario) {
+		if(u.estudiante()) {
+			if(u.esteEstudiante().getRut().equalsIgnoreCase(nombreRut)) {
+				return u;
+			}
+		}else {
+			if(u.getNombre().equalsIgnoreCase(nombreRut)) {
+				return u;
+			}
+		}
+	}
+	return null;
+}
 }

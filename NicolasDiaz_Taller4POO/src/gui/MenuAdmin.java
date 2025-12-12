@@ -14,8 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import dominio.Administrador;
-import dominio.Usuario;
+import dominio.*;
 import logica.SistemaEspecifico;
 import logica.TipoFactory;
 
@@ -76,9 +75,120 @@ public class MenuAdmin extends JFrame{
 		return null;
 	}
 
-	private Object modificarCuenta() {
-		// TODO Auto-generated method stub
-		return null;
+	private void modificarCuenta() {
+		JDialog dialogoRegister= new JDialog(this,"Modificar Usuario",true);
+		dialogoRegister.setSize(450,550);
+		dialogoRegister.setLocationRelativeTo(this);
+		
+		JPanel panelRellenar = new JPanel(new GridLayout(9,2,2,10));
+		panelRellenar.setBorder(BorderFactory.createEmptyBorder(9,10,10,10));
+		
+		
+		JLabel labelIdentificador= new JLabel("Identificador (Rut o nombre): ");
+		JTextField identificador = new JTextField(10);
+		
+		JLabel labelNombre= new JLabel("Nuevo Nombre: ");
+		JTextField nombre = new JTextField(10);
+		
+
+
+		
+		JLabel labelContraseña= new JLabel("Nueva Contraseña: ");
+		JTextField contraseña = new JTextField(10);
+
+		
+		JLabel labelCarrera= new JLabel("Nueva Carrera (Solo si eres estudiante): ");
+		JTextField carrera = new JTextField(10);
+		
+		JLabel labelSemestre= new JLabel("Nuevo Semestre (Solo si eres estudiante): ");
+		JTextField semestre = new JTextField(10);
+
+		
+		JLabel labelCorreo= new JLabel("Nuevo Correo (Solo si eres estudiante): ");
+		JTextField correo = new JTextField(10);
+
+		
+		JLabel labelArea= new JLabel("Nueva Area (Solo si eres Coordinador): ");
+		JTextField area = new JTextField(10);
+		
+		//Agregamos componente al panel
+		panelRellenar.add(labelIdentificador);
+		panelRellenar.add(identificador);
+		
+
+
+
+				panelRellenar.add(labelContraseña);
+				panelRellenar.add(contraseña);
+
+				panelRellenar.add(labelCarrera);
+				panelRellenar.add(carrera);
+				
+				panelRellenar.add(labelSemestre);
+				panelRellenar.add(semestre);
+
+				panelRellenar.add(labelCorreo);
+				panelRellenar.add(correo);
+
+				panelRellenar.add(labelArea);
+				panelRellenar.add(area);
+
+				JPanel panelBoton=new JPanel();
+				JButton btnCrear = new JButton("Modificar usuario");
+				btnCrear.addActionListener(e -> cambiar(identificador.getText(),nombre.getText(),contraseña.getText(),carrera.getText(),semestre.getText(),correo.getText(),area.getText(),dialogoRegister));
+				panelBoton.add(btnCrear);
+				
+				dialogoRegister.setLayout(new BorderLayout());
+				dialogoRegister.add(new JLabel("Dejar en blanco los que no quiera modificar "),BorderLayout.NORTH);	
+				dialogoRegister.add(panelRellenar,BorderLayout.CENTER);
+				dialogoRegister.add(btnCrear,BorderLayout.SOUTH);
+				
+				dialogoRegister.setVisible(true);
+	}
+
+	private void cambiar(String identificador,String nombre, String contraseña, String carrera, String semestre, String correo, String area,
+			JDialog dialogoRegister) {
+		try {
+			SistemaEspecifico sistema = SistemaEspecifico.getInstance();
+			Usuario u = sistema.buscarUsuario(identificador);
+			if(u == null) {
+				JOptionPane.showMessageDialog(dialogoRegister,"Error","Identificador erroneo",JOptionPane.INFORMATION_MESSAGE);
+				dialogoRegister.dispose();
+			}
+			
+			if (!contraseña.isEmpty()) {
+				u.setConstraseña(contraseña);
+			if(!nombre.isEmpty()) {
+				u.setNombre(nombre);
+			}
+			}
+			if(u.estudiante()) {
+				Estudiante estudiante = u.esteEstudiante();
+				if(!carrera.isEmpty() ) {
+					estudiante.setCarrera(carrera);
+				}
+				if(!semestre.isEmpty()) {
+					int sem = 0;
+					sem = Integer.parseInt(semestre);
+					estudiante.setSemestre(sem);
+				}
+				
+			}else if (u.coordinador()) {
+				Coordinador coordinador = u.esteCoordinador();
+				if(!area.isEmpty()) {
+					coordinador.setInfo(area);
+				}
+			}
+			
+			JOptionPane.showMessageDialog(dialogoRegister,"Usuario Modificado con exito"," Exito",JOptionPane.INFORMATION_MESSAGE);
+			dialogoRegister.dispose();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	private void crear() {

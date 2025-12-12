@@ -255,4 +255,11 @@ public class SistemaEspecifico {
 	}
 		return null;
 }
+	
+	public void agregarUsuario(Usuario u) {
+		usuario.add(u);
+	}
+	
+	
+
 }

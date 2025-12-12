@@ -10,10 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dominio.Administrador;
+import dominio.Usuario;
+import logica.SistemaEspecifico;
+import logica.TipoFactory;
 
 public class MenuAdmin extends JFrame{
 	private Administrador admin;
@@ -78,7 +82,7 @@ public class MenuAdmin extends JFrame{
 	}
 
 	private void crear() {
-		JDialog dialogoRegister= new JDialog(this,"Registrar Estudiante",true);
+		JDialog dialogoRegister= new JDialog(this,"Registrar Usuario",true);
 		dialogoRegister.setSize(350,300);
 		dialogoRegister.setLocationRelativeTo(this);
 		
@@ -90,7 +94,7 @@ public class MenuAdmin extends JFrame{
 		JLabel labelNombre= new JLabel("Nombre: ");
 		JTextField nombre = new JTextField(10);
 		
-		JLabel labelRut= new JLabel("rut: ");
+		JLabel labelRut= new JLabel("rut(Solo si eres estudiante): ");
 		JTextField rut = new JTextField(10);
 
 		
@@ -98,15 +102,18 @@ public class MenuAdmin extends JFrame{
 		JTextField contraseña = new JTextField(10);
 
 		
-		JLabel labelSemestre= new JLabel("Semestre: ");
+		JLabel labelCarrera= new JLabel("Carrera (Solo si eres estudiante): ");
+		JTextField carrera = new JTextField(10);
+		
+		JLabel labelSemestre= new JLabel("Semestre (Solo si eres estudiante): ");
 		JTextField semestre = new JTextField(10);
 
 		
-		JLabel labelCorreo= new JLabel("Correo: ");
+		JLabel labelCorreo= new JLabel("Correo (Solo si eres estudiante): ");
 		JTextField correo = new JTextField(10);
 
 		
-		JLabel labelArea= new JLabel("Area: ");
+		JLabel labelArea= new JLabel("Area (Solo si eres Coordinador): ");
 		JTextField area = new JTextField(10);
 
 		
@@ -123,6 +130,9 @@ public class MenuAdmin extends JFrame{
 		panelRellenar.add(labelContraseña);
 		panelRellenar.add(contraseña);
 
+		panelRellenar.add(labelCarrera);
+		panelRellenar.add(carrera);
+		
 		panelRellenar.add(labelSemestre);
 		panelRellenar.add(semestre);
 
@@ -134,7 +144,7 @@ public class MenuAdmin extends JFrame{
 
 		JPanel panelBoton=new JPanel();
 		JButton btnCrear = new JButton("Crear usuario");
-		btnCrear.addActionListener(e -> factoryUsuario(tipo.getText(),nombre.getText(),rut.getText(),contraseña.getText(),semestre.getText(),correo.getText(),area.getText()));
+		btnCrear.addActionListener(e -> factoryUsuario(tipo.getText(),nombre.getText(),contraseña.getText(),carrera.getText(),semestre.getText(),correo.getText(),area.getText(),rut.getText(),dialogoRegister));
 		panelBoton.add(btnCrear);
 		
 		dialogoRegister.setLayout(new BorderLayout());
@@ -146,10 +156,21 @@ public class MenuAdmin extends JFrame{
 
 	
 
-	private Object factoryUsuario(String tipo, String nombre, String rut, String contraseña, String semestre, String correo,
-			String area) {
+	private void factoryUsuario(String tipo,String nombre,String contraseña,String carrera, String semestre , String correo,String area ,String rut,JDialog dialogoRegister) {
+		int semestre1=0;
+		if(!semestre.isEmpty()) {
+		semestre1 = Integer.parseInt(semestre);}
+		Usuario usuarioNuevo= TipoFactory.crearUsuario( tipo, nombre, contraseña, carrera,  semestre1 ,  correo, area , rut);
+		try {
+			SistemaEspecifico sistema=SistemaEspecifico.getInstance();
+			sistema.agregarUsuario(usuarioNuevo);
+			JOptionPane.showMessageDialog(dialogoRegister,"Usuario Registrado","Exito",JOptionPane.INFORMATION_MESSAGE);
+			dialogoRegister.dispose();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return null;
 	}
 
 	private void salir() throws FileNotFoundException {

@@ -50,7 +50,8 @@ public class MenuAdmin extends JFrame{
 
 		btnCuenta.addActionListener(e -> crear());
 		btnModificar.addActionListener(e -> modificarCuenta());
-		btnEliminar.addActionListener(e -> reestablecerContra());
+		btnEliminar.addActionListener(e -> eliminarCuentas());
+		btonReestablecer.addActionListener(e -> reestablecerContra());
 		btnSalir.addActionListener(e -> {
 			try {
 				salir();
@@ -64,16 +65,129 @@ public class MenuAdmin extends JFrame{
 		panelBoton.add(btnCuenta);
 		panelBoton.add(btnModificar);
 		panelBoton.add(btnEliminar);
+		panelBoton.add(btonReestablecer);
 		panelBoton.add(btnSalir);
 		add(panelBoton);
 		
 		
 	}
 	
-	private Object reestablecerContra() {
-		// TODO Auto-generated method stub
-		return null;
+
+
+	private void reestablecerContra() {
+		JDialog dialogoRegister= new JDialog(this,"Cambiar Contraseña",true);
+		dialogoRegister.setSize(450,550);
+		dialogoRegister.setLocationRelativeTo(this);
+		
+		JPanel panelRellenar = new JPanel(new GridLayout(2,2,2,10));
+		panelRellenar.setBorder(BorderFactory.createEmptyBorder(9,10,10,10));
+		
+		//Creamos nuestras componentes 
+		JLabel labelIdentificador= new JLabel("Identificador (Rut o nombre): ");
+		JTextField identificador = new JTextField(10);
+		
+		JLabel labelContraseña= new JLabel("Nueva Contraseña: ");
+		JTextField contraseña = new JTextField(10);
+		
+		panelRellenar.add(labelIdentificador);
+		panelRellenar.add(identificador);
+		
+		panelRellenar.add(labelContraseña);
+		panelRellenar.add(contraseña);
+		
+		
+		JPanel panelBoton=new JPanel();
+		JButton btnCrear = new JButton("Cambiar contraseña");
+		btnCrear.addActionListener(e -> cambiarContraseña(identificador.getText(),contraseña.getText(), dialogoRegister));
+		panelBoton.add(btnCrear);
+		
+		dialogoRegister.setLayout(new BorderLayout());
+		dialogoRegister.add(new JLabel("No se puede deshacer esta accion "),BorderLayout.NORTH);	
+		dialogoRegister.add(panelRellenar,BorderLayout.CENTER);
+		dialogoRegister.add(btnCrear,BorderLayout.SOUTH);
+		
+		dialogoRegister.setVisible(true);
 	}
+
+
+
+	private void cambiarContraseña(String indentificador,String contraseña, JDialog dialogoRegister) {
+		try {
+			SistemaEspecifico sistema = SistemaEspecifico.getInstance();
+			Usuario u = sistema.buscarUsuario(indentificador);
+			if (u != null) {
+				u.setConstraseña(contraseña);
+				JOptionPane.showMessageDialog(dialogoRegister," Contraseña cambiada ","Exito",JOptionPane.INFORMATION_MESSAGE);
+				dialogoRegister.dispose();
+			}else {
+				JOptionPane.showMessageDialog(dialogoRegister,"Usuario no encontrado \n Intente denuevo","Error",JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+			
+			
+			
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+
+
+	private void eliminarCuentas() {
+		JDialog dialogoRegister= new JDialog(this,"Eliminar Usuario",true);
+		
+		dialogoRegister.setSize(450,550);
+		dialogoRegister.setLocationRelativeTo(this);
+		
+		JPanel panelRellenar = new JPanel(new GridLayout(1,2,2,10));
+		panelRellenar.setBorder(BorderFactory.createEmptyBorder(9,10,10,10));
+		
+		//Creamos nuestras componentes 
+		JLabel labelIdentificador= new JLabel("Identificador (Rut o nombre): ");
+		JTextField identificador = new JTextField(10);
+		
+		panelRellenar.add(labelIdentificador);
+		panelRellenar.add(identificador);
+		
+		JPanel panelBoton=new JPanel();
+		JButton btnCrear = new JButton("Eliminar usuario");
+		btnCrear.addActionListener(e -> eliminar(identificador.getText(), dialogoRegister));
+		panelBoton.add(btnCrear);
+		
+		dialogoRegister.setLayout(new BorderLayout());
+		dialogoRegister.add(new JLabel("No se puede deshacer esta accion "),BorderLayout.NORTH);	
+		dialogoRegister.add(panelRellenar,BorderLayout.CENTER);
+		dialogoRegister.add(btnCrear,BorderLayout.SOUTH);
+		
+		dialogoRegister.setVisible(true);
+	}
+
+
+
+	private void eliminar(String identificador,JDialog dialogoRegister) {
+		try {
+			SistemaEspecifico sistema = SistemaEspecifico.getInstance();
+			sistema.EliminarUsuario(identificador);
+			JOptionPane.showMessageDialog(dialogoRegister,"Usuario Borrado","Exito",JOptionPane.INFORMATION_MESSAGE);
+			dialogoRegister.dispose();
+
+			
+			
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+
+
 
 	private void modificarCuenta() {
 		JDialog dialogoRegister= new JDialog(this,"Modificar Usuario",true);
@@ -83,7 +197,7 @@ public class MenuAdmin extends JFrame{
 		JPanel panelRellenar = new JPanel(new GridLayout(9,2,2,10));
 		panelRellenar.setBorder(BorderFactory.createEmptyBorder(9,10,10,10));
 		
-		
+		//Creamos nuestras componentes 
 		JLabel labelIdentificador= new JLabel("Identificador (Rut o nombre): ");
 		JTextField identificador = new JTextField(10);
 		
@@ -117,6 +231,9 @@ public class MenuAdmin extends JFrame{
 		
 
 
+		
+			panelRellenar.add(labelNombre);
+			panelRellenar.add(nombre);
 
 				panelRellenar.add(labelContraseña);
 				panelRellenar.add(contraseña);
@@ -149,19 +266,21 @@ public class MenuAdmin extends JFrame{
 	private void cambiar(String identificador,String nombre, String contraseña, String carrera, String semestre, String correo, String area,
 			JDialog dialogoRegister) {
 		try {
+			//Llamamos el sistema para buscar el usuario
 			SistemaEspecifico sistema = SistemaEspecifico.getInstance();
 			Usuario u = sistema.buscarUsuario(identificador);
 			if(u == null) {
 				JOptionPane.showMessageDialog(dialogoRegister,"Error","Identificador erroneo",JOptionPane.INFORMATION_MESSAGE);
 				dialogoRegister.dispose();
 			}
-			
+			//Vamos viendo cuales son los parametros vacios para saltarlos y los que estan llenos los cambiamos 
 			if (!contraseña.isEmpty()) {
 				u.setConstraseña(contraseña);
+			}
 			if(!nombre.isEmpty()) {
 				u.setNombre(nombre);
 			}
-			}
+			
 			if(u.estudiante()) {
 				Estudiante estudiante = u.esteEstudiante();
 				if(!carrera.isEmpty() ) {
@@ -169,6 +288,7 @@ public class MenuAdmin extends JFrame{
 				}
 				if(!semestre.isEmpty()) {
 					int sem = 0;
+					//Para que no se caiga el codigo
 					sem = Integer.parseInt(semestre);
 					estudiante.setSemestre(sem);
 				}
@@ -192,6 +312,7 @@ public class MenuAdmin extends JFrame{
 	}
 
 	private void crear() {
+		//Creamos un usuario con el factory
 		JDialog dialogoRegister= new JDialog(this,"Registrar Usuario",true);
 		dialogoRegister.setSize(350,300);
 		dialogoRegister.setLocationRelativeTo(this);
@@ -269,6 +390,7 @@ public class MenuAdmin extends JFrame{
 	private void factoryUsuario(String tipo,String nombre,String contraseña,String carrera, String semestre , String correo,String area ,String rut,JDialog dialogoRegister) {
 		int semestre1=0;
 		if(!semestre.isEmpty()) {
+		//Para que no explote el codigo preguntamos si semestre esta vacio primero
 		semestre1 = Integer.parseInt(semestre);}
 		Usuario usuarioNuevo= TipoFactory.crearUsuario( tipo, nombre, contraseña, carrera,  semestre1 ,  correo, area , rut);
 		try {

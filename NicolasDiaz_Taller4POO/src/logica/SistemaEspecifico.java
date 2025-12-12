@@ -275,4 +275,12 @@ public class SistemaEspecifico {
 	}
 	return null;
 }
+	
+	public void EliminarUsuario(String identificador) {
+		Usuario u = buscarUsuario(identificador);
+		if(u != null) {
+			usuario.remove(u);
+			
+		}
+	}
 }

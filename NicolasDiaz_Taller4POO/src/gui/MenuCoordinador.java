@@ -28,7 +28,7 @@ public class MenuCoordinador extends JFrame {
 		JLabel lblTitulo = new JLabel("Bienvenido");
 		panelTitulo.add(lblTitulo);
 		add(panelTitulo);
-		//Estudiante panel
+		//coordinador panel
 		JPanel panelCoordinador = new JPanel(new GridLayout(4,1,10,10));
 		panelCoordinador.add(new JLabel("Usuario: "+ coordinador.getNombre()));
 		panelCoordinador.add(new JLabel("Area: "+ coordinador.getInfo()));
@@ -78,9 +78,8 @@ public class MenuCoordinador extends JFrame {
 		return null;
 	}
 
-	private Object certificados() {
-		// TODO Auto-generated method stub
-		return null;
+	private void certificados() {
+		
 	}
 	
 	

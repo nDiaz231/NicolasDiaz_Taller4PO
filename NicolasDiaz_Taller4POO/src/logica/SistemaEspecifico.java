@@ -119,7 +119,7 @@ public class SistemaEspecifico {
 		s.close();
 	}
 
-	private Certificacion buscarCertificacion(String id) {
+	public Certificacion buscarCertificacion(String id) {
 		for(Certificacion c : certificaciones) {
 			if (c.getId().equalsIgnoreCase(id)) {
 				return c;

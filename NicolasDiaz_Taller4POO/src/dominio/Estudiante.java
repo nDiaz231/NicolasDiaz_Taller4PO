@@ -2,25 +2,21 @@ package dominio;
 
 import java.util.ArrayList;
 
-public class Estudiante{
+public class Estudiante extends Usuario{
 	private String rut;
-	private String nombre;
 	private String carrera;
 	private int semestre;
-	private String email;
-	private String constraseña;
+	private String correo;
 	
 	private ArrayList<Nota> notas;
 	private ArrayList<Registro> inscripcion;
-	public Estudiante(String rut, String nombre, String carrera, int semestre, String email, String constraseña
+	public Estudiante(String rut, String nombre, String carrera, int semestre, String correo, String constraseña
 			) {
-		super();
+		super(nombre, constraseña,"Estudiante");
 		this.rut = rut;
-		this.nombre = nombre;
 		this.carrera = carrera;
 		this.semestre = semestre;
-		this.email = email;
-		this.constraseña = constraseña;
+		this.correo = correo;
 		this.notas = new ArrayList<>();
 		this.inscripcion = new ArrayList<>();
 	}
@@ -48,11 +44,11 @@ public class Estudiante{
 	public void setSemestre(int semestre) {
 		this.semestre = semestre;
 	}
-	public String getEmail() {
-		return email;
+	public String getCorreo() {
+		return correo;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 	public String getConstraseña() {
 		return constraseña;

@@ -3,10 +3,10 @@ package dominio;
 public class Nota {
 	private String rut;
 	private String codigoAsignatura;
-	private String calificacion;
+	private double calificacion;
 	private String estado;
 	private String semestre;
-	public Nota(String rut, String codigoAsignatura, String calificacion, String estado, String semestre) {
+	public Nota(String rut, String codigoAsignatura, double calificacion, String estado, String semestre) {
 		this.rut = rut;
 		this.codigoAsignatura = codigoAsignatura;
 		this.calificacion = calificacion;
@@ -25,10 +25,10 @@ public class Nota {
 	public void setCodigoAsignatura(String codigoAsignatura) {
 		this.codigoAsignatura = codigoAsignatura;
 	}
-	public String getCalificacion() {
+	public double getCalificacion() {
 		return calificacion;
 	}
-	public void setCalificacion(String calificacion) {
+	public void setCalificacion(double calificacion) {
 		this.calificacion = calificacion;
 	}
 	public String getEstado() {

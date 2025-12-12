@@ -6,10 +6,10 @@ public class Certificacion {
 	private String id;
 	private String nombre;
 	private String descripcion;
-	private String requisitos;
+	private int requisitos;
 	private int añosValidez;
 	private ArrayList<String> listCursos;
-	public Certificacion(String id, String nombre, String descripcion, String requisitos, int añosValidez
+	public Certificacion(String id, String nombre, String descripcion, int requisitos, int añosValidez
 			) {
 		this.id = id;
 		this.nombre = nombre;
@@ -36,10 +36,10 @@ public class Certificacion {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getRequisitos() {
+	public int getRequisitos() {
 		return requisitos;
 	}
-	public void setRequisitos(String requisitos) {
+	public void setRequisitos(int requisitos) {
 		this.requisitos = requisitos;
 	}
 	public int getAñosValidez() {

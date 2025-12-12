@@ -283,4 +283,29 @@ public class SistemaEspecifico {
 			
 		}
 	}
+
+	public ArrayList<Usuario> getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(ArrayList<Usuario> usuario) {
+		this.usuario = usuario;
+	}
+
+	public ArrayList<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(ArrayList<Curso> cursos) {
+		this.cursos = cursos;
+	}
+
+	public ArrayList<Certificacion> getCertificaciones() {
+		return certificaciones;
+	}
+
+	public void setCertificaciones(ArrayList<Certificacion> certificaciones) {
+		this.certificaciones = certificaciones;
+	}
+	
 }

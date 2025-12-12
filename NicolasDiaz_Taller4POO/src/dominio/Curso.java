@@ -6,12 +6,14 @@ public class Curso {
 	private String nrc;
 	private String nombre;
 	private int semestre;
+	private int creditos;
 	private String area;
 	private ArrayList<String> prerrequisitos;
-	public Curso(String nrc, String nombre, int semestre, String area) {
+	public Curso(String nrc, String nombre, int semestre,int creditos, String area) {
 		this.nrc = nrc;
 		this.nombre = nombre;
 		this.semestre = semestre;
+		this.creditos=creditos;
 		this.area = area;
 		this.prerrequisitos = new ArrayList<>();
 	}
@@ -23,6 +25,12 @@ public class Curso {
 	}
 	public String getNombre() {
 		return nombre;
+	}
+	public int getCreditos() {
+		return creditos;
+	}
+	public void setCreditos(int creditos) {
+		this.creditos = creditos;
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;

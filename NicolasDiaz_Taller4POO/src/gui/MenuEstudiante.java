@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import dominio.*;
@@ -24,7 +25,19 @@ public class MenuEstudiante extends JFrame {
 		
 		setLayout(new GridLayout(3,1,10,10));
 		
+		JPanel panelTitulo = new JPanel(new GridLayout(1,1,10,10));
+		JLabel lblTitulo = new JLabel("Bienvenido");
+		panelTitulo.add(lblTitulo);
+		add(panelTitulo);
 		
+		JPanel panelEstudiante = new JPanel(new GridLayout(4,1,10,10));
+		panelEstudiante.add(new JLabel("Nombre: "+ estudiante.getNombre()));
+		panelEstudiante.add(new JLabel("Rut: "+ estudiante.getRut()));
+		panelEstudiante.add(new JLabel("Carrera: "+ estudiante.getCarrera()));
+		panelEstudiante.add(new JLabel("Semestre: "+ estudiante.getSemestre()));
+
+		add(panelEstudiante);
+
 		
 		
 		

@@ -97,7 +97,7 @@ public class MenuCoordinador extends JFrame {
 		panelBoton.add(btnEstadisticas);
 		panelBoton.add(btnAnalisis);
 		btnEstadisticas.addActionListener(e -> estadisticas(dialogoRegister));
-		btnAnalisis.addActionListener(e -> analisis());
+		btnAnalisis.addActionListener(e -> analisis(dialogoRegister));
 
 		
 		dialogoRegister.setLayout(new BorderLayout());
@@ -119,10 +119,38 @@ public class MenuCoordinador extends JFrame {
 	private void estadisticas(JDialog dialogoRegister) {
 		try {
 			SistemaEspecifico sistema = SistemaEspecifico.getInstance();
-			ArrayList<Certificacion> certificaciones = sistema.getCertificaciones();
+			ArrayList<Usuario> usuarios = sistema.getUsuario();
+			int totalEstudiantes =0;
+			int estudiantes100=0;
+			String detalles = "No alcazaron la linea de certificacion: "+"\n";
 			
 			
+			for(Usuario u : usuarios) {
+				if(u.estudiante()) {
+					Estudiante e = u.esteEstudiante();
+					for(Registro r : e.getInscripcion()) {
+							totalEstudiantes++;
+							if(r.getProgreso() == 100) {
+								estudiantes100++;
+							}else if (r.getProgreso() > 50) {
+								detalles += e.getNombre() + ": ";
+								detalles += r.getProgreso() +"\n ";
+							}
+							}
+								
+							
+							
+						
+					
+				}
+			}
+			double promedioAprobacion = (estudiantes100*100)/totalEstudiantes;
 			
+			String mensaje = detalles + "Promedio de aprobacion: "+promedioAprobacion+"%";
+			
+			JOptionPane.showMessageDialog(this,mensaje," Estadisticas",JOptionPane.INFORMATION_MESSAGE);
+
+			dialogoRegister.dispose();
 			
 			
 			
@@ -134,9 +162,58 @@ public class MenuCoordinador extends JFrame {
 		
 
 	}
-	private Object analisis() {
-		// TODO Auto-generated method stub
-		return null;
+	private void analisis(JDialog dialogoRegister) {
+		String infoCoordinador = coordinador.getInfo();
+		String detalle = "Asignatura criticas: "+"\n";
+		String idCoordinadorInfo = "";
+		try {
+			SistemaEspecifico sistema = SistemaEspecifico.getInstance();
+			for(Certificacion c : sistema.getCertificaciones()) {
+				if(c.getNombre().equalsIgnoreCase(infoCoordinador)) {
+					idCoordinadorInfo = c.getId();
+					break;
+				}
+			}
+			
+			int contador=0;
+
+			for(Usuario u : sistema.getUsuario()){
+				if (u.estudiante()) {
+					Estudiante e = u.esteEstudiante();
+					boolean pertenece=false;
+					for(Registro r : e.getInscripcion()) {
+						if(r.getId().equalsIgnoreCase(idCoordinadorInfo)) {
+							pertenece = true;
+						}
+							
+					}
+					if (pertenece) {
+						for(Nota n : e.getNotas()) {
+							if(n.getCalificacion() < 4.0 && !n.getEstado().equalsIgnoreCase("Cursando")) {
+								contador++;
+								detalle += (e.getNombre()) +"\n";
+								detalle += "reprobo: "+n.getCodigoAsignatura();
+								detalle += "con " +n.getCalificacion();
+							}
+						}
+					}
+				}
+			}
+			if (contador == 0) {
+				detalle += "No hubo asignaturas criticas";
+			}
+			
+			JOptionPane.showMessageDialog(this,detalle," Estadisticas",JOptionPane.INFORMATION_MESSAGE);
+
+			 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+
 	}
 	private void certificados() {
 		JDialog dialogoRegister= new JDialog(this,"Gestion Certificados",true);

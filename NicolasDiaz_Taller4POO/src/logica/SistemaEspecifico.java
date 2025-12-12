@@ -9,13 +9,15 @@ import dominio.*;
 public class SistemaEspecifico {
 	private static SistemaEspecifico instance;
 	
-	private ArrayList<Usuario> usuarios;
+	private ArrayList<Administrador> administradores;
+	private ArrayList<Coordinador> coordinador;
 	private ArrayList<Estudiante> estudiante;
 	private ArrayList<Curso> cursos;
 	private ArrayList<Certificacion> certificaciones;
 	
 	private SistemaEspecifico() throws FileNotFoundException {
-		this.usuarios = new ArrayList<>();
+		this.administradores = new ArrayList<>();
+		this.coordinador = new ArrayList<>();
 		this.estudiante = new ArrayList<>();
 		this.cursos = new ArrayList<>();
 		this.certificaciones = new ArrayList<>();
@@ -89,7 +91,7 @@ public class SistemaEspecifico {
 		s.close();
 	}
 
-	private Estudiante buscarEstudiante(String rut) {
+	public Estudiante buscarEstudiante(String rut) {
 		for(Estudiante e : estudiante) {
 			if(e.getRut().equalsIgnoreCase(rut)) {
 				return e;
@@ -180,10 +182,10 @@ public class SistemaEspecifico {
 			if (rol.equalsIgnoreCase("Coordinador")) {
 				String dato = datos[3];
 				Coordinador c = new Coordinador(nombre,contraseña,rol,dato);
-				usuarios.add(c);
+				coordinador.add(c);
 			}else {
 				Administrador a = new Administrador(nombre,contraseña,rol);
-				usuarios.add(a);
+				administradores.add(a);
 			}
 		}
 		s.close();
@@ -221,16 +223,39 @@ public class SistemaEspecifico {
 	
 	
 	public Object verificacion(String rut,String constraseña) {
-		for(Usuario u : usuarios) {
+		for(Administrador u : administradores) {
 			if(u.getNombre().equalsIgnoreCase(rut) && u.getConstraseña().equalsIgnoreCase(constraseña)) {
 				return u;
 			}
+		for(Coordinador c : coordinador) {
+			if(c.getNombre().equalsIgnoreCase(rut) && c.getConstraseña().equalsIgnoreCase(constraseña)) {
+				return c;
+			}
 		}
 		for (Estudiante e : estudiante) {
-			if(e.getRut().equalsIgnoreCase(rut) && e.getConstraseña().equalsIgnoreCase(constraseña));
+			if(e.getRut().equalsIgnoreCase(rut) && e.getConstraseña().equalsIgnoreCase(constraseña))
 			return e;
 		}
-		return null;
 		
+	}
+		return null;
+}
+	
+	public Coordinador buscarCoordinador(String nombre) {
+		for(Coordinador c: coordinador) {
+			if(c.getNombre().equalsIgnoreCase(nombre)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public Administrador buscarAdmin(String nombre) {
+		for(Administrador a : administradores) {
+			if(a.getNombre().equalsIgnoreCase(nombre)) {
+				return a;
+			}
+		}
+		return null;
 	}
 }

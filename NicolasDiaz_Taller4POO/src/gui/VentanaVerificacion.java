@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
+import dominio.*;
 import logica.*;
 public class VentanaVerificacion extends JFrame{
 	
@@ -61,6 +63,36 @@ public class VentanaVerificacion extends JFrame{
 		
 		
 		Object usuarioActual = sistema.verificacion(usuario, contra);
+		if (usuarioActual != null) {
+			cambiar(usuarioActual,usuario);
+			dispose();
+			limpiar();
+		}
+	}
+
+
+
+	private void cambiar(Object usuario,String nombre) {
+		if(usuario instanceof Estudiante) {
+			Estudiante e = sistema.buscarEstudiante(nombre);
+			MenuEstudiante menu = new MenuEstudiante(e);
+			menu.setVisible(true);
+		}else if (usuario instanceof Coordinador) {
+			Coordinador c = sistema.buscarCoordinador(nombre);
+			MenuCoordinador menu = new MenuCoordinador(c);
+			
+
 		
+	}else if (usuario instanceof Administrador) {
+		Administrador a = sistema.buscarAdmin(nombre);
+		MenuAdmin menu = new MenuAdmin(a);
+	}
+	}
+
+
+	private void limpiar() {
+		user.setText("");
+		contraseña.setText("");
+		lblMensaje.setText("");
 	}
 }

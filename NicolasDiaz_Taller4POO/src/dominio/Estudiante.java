@@ -20,6 +20,7 @@ public class Estudiante extends Usuario{
 		this.notas = new ArrayList<>();
 		this.inscripcion = new ArrayList<>();
 	}
+	
 	public String getRut() {
 		return rut;
 	}
@@ -76,6 +77,16 @@ public class Estudiante extends Usuario{
 		this.inscripcion.add(registro);
 		
 	}
+	public boolean verificacion(String nombre1, String contraseña1) {
+		return rut.equals(nombre1) && constraseña.equalsIgnoreCase(contraseña1);
+	}
+	public boolean estudiante() {
+		return true;
+	}
+	public Estudiante esteEstudiante() {
+		return this;
+	}
+	
 	
 
 }

@@ -34,7 +34,31 @@ public abstract class Usuario {
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
+	public abstract boolean verificacion(String nombre1, String contraseña1);
 	
+	
+	//Creamos booleans para ver que tipo de usuario son
+	public boolean coordinador() {
+		return false;
+	}
+	public boolean administrador() {
+		return false;
+	}
+	public boolean estudiante() {
+		return false;
+	}
+	//creamos Objetos de cada usuario para luego devolverlo cuando queramos
+	public Estudiante esteEstudiante() {
+		return null;
+	}
+	
+	public Administrador esteAdmin() {
+		return null;
+	}
+	
+	public Coordinador esteCoordinador() {
+		return null;
+	}
 	
 	
 	

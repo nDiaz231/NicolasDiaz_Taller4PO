@@ -9,16 +9,13 @@ import dominio.*;
 public class SistemaEspecifico {
 	private static SistemaEspecifico instance;
 	
-	private ArrayList<Administrador> administradores;
-	private ArrayList<Coordinador> coordinador;
-	private ArrayList<Estudiante> estudiante;
+	private ArrayList<Usuario> usuario;
 	private ArrayList<Curso> cursos;
 	private ArrayList<Certificacion> certificaciones;
 	
 	private SistemaEspecifico() throws FileNotFoundException {
-		this.administradores = new ArrayList<>();
-		this.coordinador = new ArrayList<>();
-		this.estudiante = new ArrayList<>();
+	
+		this.usuario = new ArrayList<>();
 		this.cursos = new ArrayList<>();
 		this.certificaciones = new ArrayList<>();
 		
@@ -92,9 +89,12 @@ public class SistemaEspecifico {
 	}
 
 	public Estudiante buscarEstudiante(String rut) {
-		for(Estudiante e : estudiante) {
-			if(e.getRut().equalsIgnoreCase(rut)) {
-				return e;
+		for(Usuario  u: usuario) {
+			if(u.estudiante()) {
+				Estudiante e = u.esteEstudiante();
+				if(e.getRut().equalsIgnoreCase(rut)) {
+					return e;
+				}
 			}
 		}
 		return null;
@@ -164,7 +164,7 @@ public class SistemaEspecifico {
 			String correo = datos[4];
 			String constraseña = datos[5];
 			Estudiante e = new Estudiante (rut,nombre,carrera,semestre,correo,constraseña);
-			estudiante.add(e);
+			usuario.add(e);
 		}
 		s.close();
 	}
@@ -182,10 +182,10 @@ public class SistemaEspecifico {
 			if (rol.equalsIgnoreCase("Coordinador")) {
 				String dato = datos[3];
 				Coordinador c = new Coordinador(nombre,contraseña,rol,dato);
-				coordinador.add(c);
+				usuario.add(c);
 			}else {
 				Administrador a = new Administrador(nombre,contraseña,rol);
-				administradores.add(a);
+				usuario.add(a);
 			}
 		}
 		s.close();
@@ -222,40 +222,37 @@ public class SistemaEspecifico {
 	}
 	
 	
-	public Object verificacion(String rut,String constraseña) {
-		for(Administrador u : administradores) {
-			if(u.getNombre().equalsIgnoreCase(rut) && u.getConstraseña().equalsIgnoreCase(constraseña)) {
+	public Usuario verificacion(String rut,String constraseña) {
+		for(Usuario u : usuario) {
+			if(u.verificacion(rut, constraseña)) {
 				return u;
 			}
-		for(Coordinador c : coordinador) {
-			if(c.getNombre().equalsIgnoreCase(rut) && c.getConstraseña().equalsIgnoreCase(constraseña)) {
-				return c;
-			}
 		}
-		for (Estudiante e : estudiante) {
-			if(e.getRut().equalsIgnoreCase(rut) && e.getConstraseña().equalsIgnoreCase(constraseña))
-			return e;
-		}
-		
-	}
 		return null;
+	
 }
 	
 	public Coordinador buscarCoordinador(String nombre) {
-		for(Coordinador c: coordinador) {
-			if(c.getNombre().equalsIgnoreCase(nombre)) {
-				return c;
+		for(Usuario  u: usuario) {
+			if(u.coordinador()) {
+				Coordinador c = u.esteCoordinador();
+				if(c.getNombre().equalsIgnoreCase(nombre)) {
+					return c;
+				}
 			}
 		}
 		return null;
 	}
 	
 	public Administrador buscarAdmin(String nombre) {
-		for(Administrador a : administradores) {
-			if(a.getNombre().equalsIgnoreCase(nombre)) {
-				return a;
+		for(Usuario  u: usuario) {
+			if(u.administrador()) {
+				Administrador a = u.esteAdmin();
+				if(a.getNombre().equalsIgnoreCase(nombre)) {
+					return a;
+				}
 			}
-		}
-		return null;
 	}
+		return null;
+}
 }

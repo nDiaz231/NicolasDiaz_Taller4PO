@@ -15,7 +15,17 @@ public class Coordinador extends Usuario{
 	public void setInfo(String info) {
 		this.info = info;
 	}
-	
+
+	@Override
+	public boolean verificacion(String nombre1, String contraseña1) {
+		return nombre.equals(nombre1) && constraseña.equalsIgnoreCase(contraseña1);
+	}
+	public Coordinador esteCoordinador() {
+		return this;
+	}
+	public boolean coordinador() {
+		return true;
+	}
 	
 
 }

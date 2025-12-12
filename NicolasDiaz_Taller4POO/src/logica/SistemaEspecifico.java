@@ -218,4 +218,19 @@ public class SistemaEspecifico {
 	
 	s.close();
 	}
+	
+	
+	public Object verificacion(String rut,String constraseña) {
+		for(Usuario u : usuarios) {
+			if(u.getNombre().equalsIgnoreCase(rut) && u.getConstraseña().equalsIgnoreCase(constraseña)) {
+				return u;
+			}
+		}
+		for (Estudiante e : estudiante) {
+			if(e.getRut().equalsIgnoreCase(rut) && e.getConstraseña().equalsIgnoreCase(constraseña));
+			return e;
+		}
+		return null;
+		
+	}
 }
